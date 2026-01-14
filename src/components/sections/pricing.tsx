@@ -21,6 +21,7 @@ const PricingSection = () => {
         'Email support',
       ],
       variant: 'starter',
+      priceId: process.env.NEXT_PUBLIC_STRIPE_PRICE_STARTER,
     },
     {
       name: 'Growth',
@@ -36,6 +37,7 @@ const PricingSection = () => {
       ],
       variant: 'growth',
       popular: true,
+      priceId: process.env.NEXT_PUBLIC_STRIPE_PRICE_GROWTH,
     },
     {
       name: 'Professional',
@@ -50,6 +52,7 @@ const PricingSection = () => {
         'Early access to new features',
       ],
       variant: 'professional',
+      priceId: process.env.NEXT_PUBLIC_STRIPE_PRICE_PROFESSIONAL,
     },
     {
       name: 'Business',
@@ -64,6 +67,7 @@ const PricingSection = () => {
         'Custom integrations',
       ],
       variant: 'business',
+      priceId: process.env.NEXT_PUBLIC_STRIPE_PRICE_BUSINESS,
     },
   ];
 
@@ -165,6 +169,28 @@ const PricingSection = () => {
                     className={`w-full py-3 px-4 rounded-xl text-[14px] font-semibold mb-10 transition-colors ${getButtonStyles(
                       plan.variant
                     )}`}
+                    onClick={async () => {
+                      if (!plan.priceId) {
+                        window.location.href = "/builder";
+                        return;
+                      }
+
+                      const res = await fetch("/api/checkout", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ priceId: plan.priceId }),
+                      });
+
+                      if (!res.ok) {
+                        window.location.href = "/builder";
+                        return;
+                      }
+
+                      const data = await res.json();
+                      if (data.url) {
+                        window.location.href = data.url as string;
+                      }
+                    }}
                   >
                     Get started
                   </button>

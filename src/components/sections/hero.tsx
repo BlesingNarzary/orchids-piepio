@@ -98,6 +98,9 @@ const HeroSection = () => {
                       placeholder={placeholder}
                       className="w-full bg-transparent border-none outline-none text-[20px] md:text-[22px] font-medium placeholder:text-white/20 text-white resize-none min-h-[60px]"
                       rows={1}
+                      onFocus={() => {
+                        window.location.href = "/builder";
+                      }}
                     />
                   </div>
 
