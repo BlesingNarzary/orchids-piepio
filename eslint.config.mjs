@@ -1,18 +1,8 @@
-import { FlatCompat } from '@eslint/eslintrc'
-import eslintPluginImport from 'eslint-plugin-import'
-
-const compat = new FlatCompat({
-  baseDirectory: import.meta.dirname,
-})
+import nextConfig from 'eslint-config-next'
 
 const eslintConfig = [
-  ...compat.config({
-    extends: ['next'],
-  }),
+  ...nextConfig,
   {
-    plugins: {
-      import: eslintPluginImport,
-    },
     rules: {
       'react/no-unescaped-entities': 'off',
       '@next/next/no-img-element': 'off',
