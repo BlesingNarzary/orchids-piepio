@@ -80,12 +80,12 @@ const HeroSection = () => {
 
           {/* Heading */}
             <h1 className="text-4xl md:text-6xl lg:text-[64px] font-bold leading-[1.1] tracking-[-0.03em] text-foreground mb-6">
-              Piepio The AI full-stack engineer.
+              Piepio The AI Full-Stack Engineer.
             </h1>
 
           {/* Subheading */}
           <p className="text-lg md:text-xl text-muted-foreground max-w-[700px] mb-12 !whitespace-pre-line">
-            Bring your idea — Piepio builds the frontend, backend, auth, database, and payments instantly. Make it all work now.
+            Bring your idea — Piepio builds the frontend, backend, auth, database, and payments instantly.
           </p>
 
             {/* Prompt Interaction Box */}
