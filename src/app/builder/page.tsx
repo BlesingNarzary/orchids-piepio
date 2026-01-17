@@ -27,11 +27,11 @@ export default function BuilderPage() {
     const res = await fetch("/api/build-requests", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ userId: user.id, prompt }),
+      body: JSON.stringify({ prompt }),
     });
 
     if (!res.ok) {
-      setError("Failed to submit build. Please try again.");
+      setError("Failed to submit build. Please check your subscription and try again.");
       setStatus("idle");
       return;
     }
