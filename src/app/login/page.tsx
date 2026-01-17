@@ -6,17 +6,7 @@ import Image from "next/image";
 import { ArrowLeft } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
 import { Button } from "@/components/ui/button";
-import { supabase } from "@/lib/supabase";
-
-export default function LoginPage() {
-  const handleGoogleLogin = async () => {
-    await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        redirectTo: `${window.location.origin}/auth/callback`,
-      },
-    });
-  };
+import { SignInButton } from "@clerk/nextjs";
 
   return (
     <div className="min-h-screen bg-background flex flex-col items-center justify-center p-6 relative overflow-hidden">
@@ -45,18 +35,19 @@ export default function LoginPage() {
                 className="object-contain"
               />
             </div>
-            <h1 className="text-[24px] font-bold text-foreground tracking-tight">Welcome to Piepio</h1>
+            <h1 className="text-[24px] font-bold text-foreground tracking-tight">Welcome to trae.ai</h1>
             <p className="text-muted-foreground text-[14px] mt-2">Sign in to your account to continue</p>
           </div>
 
-          <Button
-            variant="outline"
-            onClick={handleGoogleLogin}
-            className="w-full h-12 gap-3 text-[16px] font-medium hover:bg-secondary/80 transition-colors"
-          >
-            <FcGoogle className="w-5 h-5" />
-            Continue with Google
-          </Button>
+          <SignInButton mode="redirect">
+            <Button
+              variant="outline"
+              className="w-full h-12 gap-3 text-[16px] font-medium hover:bg-secondary/80 transition-colors"
+            >
+              <FcGoogle className="w-5 h-5" />
+              Continue with email or Google
+            </Button>
+          </SignInButton>
 
           <p className="text-center mt-8 text-[13px] text-muted-foreground px-4">
             By continuing, you agree to our{" "}

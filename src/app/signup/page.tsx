@@ -6,17 +6,7 @@ import Image from "next/image";
 import { ArrowLeft } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
 import { Button } from "@/components/ui/button";
-import { supabase } from "@/lib/supabase";
-
-export default function SignupPage() {
-  const handleGoogleLogin = async () => {
-    await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: {
-        redirectTo: `${window.location.origin}/auth/callback`,
-      },
-    });
-  };
+import { SignUpButton } from "@clerk/nextjs";
 
   return (
     <div className="min-h-screen bg-background flex flex-col items-center justify-center p-6 relative overflow-hidden">
@@ -46,17 +36,18 @@ export default function SignupPage() {
               />
             </div>
             <h1 className="text-[24px] font-bold text-foreground tracking-tight">Create your account</h1>
-            <p className="text-muted-foreground text-[14px] mt-2">Join Piepio and start building today</p>
+            <p className="text-muted-foreground text-[14px] mt-2">Join trae.ai and start building today</p>
           </div>
 
-          <Button
-            variant="outline"
-            onClick={handleGoogleLogin}
-            className="w-full h-12 gap-3 text-[16px] font-medium hover:bg-secondary/80 transition-colors"
-          >
-            <FcGoogle className="w-5 h-5" />
-            Sign up with Google
-          </Button>
+          <SignUpButton mode="redirect">
+            <Button
+              variant="outline"
+              className="w-full h-12 gap-3 text-[16px] font-medium hover:bg-secondary/80 transition-colors"
+            >
+              <FcGoogle className="w-5 h-5" />
+              Sign up with email or Google
+            </Button>
+          </SignUpButton>
 
           <p className="text-center mt-8 text-[13px] text-muted-foreground px-4">
             By creating an account, you agree to our{" "}

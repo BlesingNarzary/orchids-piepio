@@ -2,22 +2,22 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useAuth } from "@/hooks/use-auth";
+import { useUser } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 
 export default function BuilderPage() {
-  const { user, loading } = useAuth();
+  const { user, isLoaded, isSignedIn } = useUser();
   const router = useRouter();
   const [prompt, setPrompt] = useState("");
   const [status, setStatus] = useState<"idle" | "submitting" | "done">("idle");
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!loading && !user) {
+    if (isLoaded && !isSignedIn) {
       router.replace("/login");
     }
-  }, [loading, user, router]);
+  }, [isLoaded, isSignedIn, router]);
 
   const handleSubmit = async () => {
     if (!prompt.trim() || !user) return;
@@ -39,7 +39,7 @@ export default function BuilderPage() {
     setStatus("done");
   };
 
-  if (loading || (!user && !error && status === "idle")) {
+  if (!isLoaded || (!user && !error && status === "idle")) {
     return (
       <main className="min-h-screen flex items-center justify-center bg-background">
         <p className="text-muted-foreground">Checking your session...</p>
