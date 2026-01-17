@@ -62,40 +62,38 @@ export default function NewAppPage() {
   }
 
   return (
-    <main className="min-h-[calc(100vh-3.5rem)] bg-background">
-      <div className="space-y-6">
-        <div className="flex items-center justify-between gap-4">
-          <div>
-            <h1 className="text-2xl font-semibold tracking-tight">
-              New app
-            </h1>
-            <p className="text-sm text-muted-foreground mt-1">
-              Describe what you want Piepio to build. Piepio will wire up the frontend, backend, auth, database, and payments.
-            </p>
-          </div>
+    <div className="space-y-6">
+      <div className="flex items-center justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-semibold tracking-tight">
+            New app
+          </h1>
+          <p className="text-sm text-muted-foreground mt-1">
+            Describe what you want Piepio to build. Piepio will wire up the frontend, backend, auth, database, and payments.
+          </p>
         </div>
-
-        <section className="space-y-4">
-          <Textarea
-            value={prompt}
-            onChange={(e) => setPrompt(e.target.value)}
-            placeholder="Example: A SaaS dashboard with user login, team workspaces, Stripe billing, and an admin API..."
-            rows={4}
-            className="w-full"
-          />
-
-          <div className="flex flex-wrap items-center gap-4">
-            <Button onClick={handleSubmit} disabled={status === "submitting" || !prompt.trim()}>
-              {status === "submitting" ? "Generating..." : "Ask Piepio to build this"}
-            </Button>
-            {error && (
-              <span className="text-xs text-red-500">
-                {error}
-              </span>
-            )}
-          </div>
-        </section>
       </div>
-    </main>
+
+      <section className="space-y-4">
+        <Textarea
+          value={prompt}
+          onChange={(e) => setPrompt(e.target.value)}
+          placeholder="Example: A SaaS dashboard with user login, team workspaces, Stripe billing, and an admin API..."
+          rows={4}
+          className="w-full"
+        />
+
+        <div className="flex flex-wrap items-center gap-4">
+          <Button onClick={handleSubmit} disabled={status === "submitting" || !prompt.trim()}>
+            {status === "submitting" ? "Generating..." : "Ask Piepio to build this"}
+          </Button>
+          {error && (
+            <span className="text-xs text-red-500">
+              {error}
+            </span>
+          )}
+        </div>
+      </section>
+    </div>
   );
 }
