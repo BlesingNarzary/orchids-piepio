@@ -138,33 +138,8 @@ const HeroSection = () => {
       {/* Background Subgrid */}
         <div className="absolute top-[400px] left-1/2 -translate-x-1/2 w-full max-w-[1314px] h-[400px] pointer-events-none overflow-hidden lg:block hidden z-0 px-6 lg:px-[24px]">
           <div className="grid grid-cols-6 grid-rows-4 w-full h-full border-t border-[#E5E5E5]/40 text-transparent">
-            {Array.from({ length: 24 }).map((_, i) =>
+          {Array.from({ length: 24 }).map((_, i) =>
             <div key={i} className="border-r border-b border-[#E5E5E5]/30 relative">
-                {i === 0 && (
-                  <div className="absolute top-8 left-0 flex flex-col gap-6 font-mono select-none z-10">
-                    <div className="flex items-center gap-2">
-                      <div className="w-8 h-8 rounded-lg bg-foreground flex items-center justify-center overflow-hidden relative">
-                        <Image
-                          src="https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/project-uploads/3d6ecce6-cc10-46fc-af6f-e55871f87b8c/image-1768289104761.png?width=8000&height=8000&resize=contain"
-                          alt="Piepio Logo"
-                          width={24}
-                          height={24}
-                          className="object-contain"
-                        />
-                      </div>
-                      <span className="text-[18px] font-bold tracking-tight text-foreground">
-                        Piepio
-                      </span>
-                    </div>
-
-                        <div className="flex flex-col gap-1 text-[11px] tracking-[0.1em] text-[#525252] uppercase font-mono">
-                          <div>AI FULLSTACK ENGINEER</div>
-                          <div className="text-[9px] opacity-70">SOC 2 TYPE 1, SOC 2 TYPE 2, ISO 27001</div>
-                          <ComplianceLogos className="mt-1 scale-[0.6] origin-left" />
-                        </div>
-
-                  </div>
-                )}
                 {(i === 2 || i === 15) &&
             <div className="absolute inset-0 flex items-center justify-center">
                   <div className="w-1 h-1 bg-[#FF4D00]/40 rounded-full"></div>
