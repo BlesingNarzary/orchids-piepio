@@ -1,4 +1,4 @@
-import { pgTable, text, uuid, timestamp, integer } from "drizzle-orm/pg-core";
+import { pgTable, text, uuid, timestamp, integer, jsonb } from "drizzle-orm/pg-core";
 
 export const users = pgTable("users", {
   id: uuid("id").primaryKey().defaultRandom(),
@@ -41,3 +41,13 @@ export const usageEvents = pgTable("usage_events", {
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
 });
 
+export const generatedProjects = pgTable("generated_projects", {
+  id: uuid("id").primaryKey().defaultRandom(),
+  userId: uuid("user_id")
+    .notNull()
+    .references(() => users.id),
+  projectId: uuid("project_id").references(() => projects.id),
+  files: jsonb("files").notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow(),
+});
