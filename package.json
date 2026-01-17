@@ -99,7 +99,8 @@
         "three-globe": "^2.43.0",
         "vaul": "^1.1.2",
         "zod": "^4.1.12",
-        "styled-jsx": "5.1.6"
+        "styled-jsx": "5.1.6",
+        "pg": "^8.13.1"
     },
     "devDependencies": {
         "@babel/types": "^7.28.5",
