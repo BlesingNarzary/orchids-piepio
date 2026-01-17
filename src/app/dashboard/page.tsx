@@ -1,12 +1,14 @@
 import { db } from "@/db/client";
 import { projects } from "@/db/schema";
 import { requireDbUser } from "@/lib/require-db-user";
+import { getActiveSubscriptionForUser } from "@/lib/subscription";
 import { eq } from "drizzle-orm";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { UpgradeButton } from "./UpgradeButton";
 
 async function createProject(formData: FormData) {
   "use server";
@@ -33,6 +35,8 @@ async function createProject(formData: FormData) {
 export default async function DashboardPage() {
   const user = await requireDbUser();
 
+  const subscription = await getActiveSubscriptionForUser(user.id);
+
   const rows = await db
     .select()
     .from(projects)
@@ -51,6 +55,15 @@ export default async function DashboardPage() {
             </p>
           </div>
           <div className="flex items-center gap-3">
+            <div className="text-right">
+              <div className="text-xs uppercase tracking-wide text-muted-foreground">
+                Plan
+              </div>
+              <div className="text-sm font-medium">
+                {subscription ? "Pro" : "Free"}
+              </div>
+            </div>
+            {!subscription && <UpgradeButton />}
             <Link href="/builder">
               <Button variant="outline">
                 Open builder
@@ -147,4 +160,3 @@ export default async function DashboardPage() {
     </main>
   );
 }
-
