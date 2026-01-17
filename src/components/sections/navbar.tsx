@@ -1,31 +1,21 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { supabase } from "@/lib/supabase";
-import { User } from "@supabase/supabase-js";
+import {
+  SignedIn,
+  SignedOut,
+  SignInButton,
+  SignUpButton,
+  UserButton,
+  useUser,
+} from "@clerk/nextjs";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [user, setUser] = useState<User | null>(null);
-
-  useEffect(() => {
-    supabase.auth.getUser().then(({ data: { user } }) => {
-      setUser(user);
-    });
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
-    });
-
-    return () => subscription.unsubscribe();
-  }, []);
-
-  const handleSignOut = async () => {
-    await supabase.auth.signOut();
-  };
+  const { user } = useUser();
 
   const navLinks = [
     { name: "Features", href: "#features" },
@@ -96,23 +86,21 @@ const Navbar = () => {
 
         <div className="flex items-center gap-4">
           <div className="hidden lg:flex items-center gap-4">
-            {!user ? (
-              <>
-                <Button variant="ghost" size="sm" asChild>
-                  <a href="/login">Log in</a>
+            <SignedOut>
+              <SignInButton mode="modal">
+                <Button variant="ghost" size="sm">
+                  Log in
                 </Button>
-                <Button size="sm" asChild>
-                  <a href="/signup">Sign up</a>
+              </SignInButton>
+              <SignUpButton mode="modal">
+                <Button size="sm">
+                  Sign up
                 </Button>
-              </>
-            ) : (
-              <div className="flex items-center gap-4">
-                <span className="text-sm text-muted-foreground">{user.email}</span>
-                <Button variant="outline" size="sm" onClick={handleSignOut}>
-                  Log out
-                </Button>
-              </div>
-            )}
+              </SignUpButton>
+            </SignedOut>
+            <SignedIn>
+              <UserButton />
+            </SignedIn>
           </div>
 
           <button
@@ -143,28 +131,35 @@ const Navbar = () => {
               </a>
             ))}
             <div className="flex flex-col gap-2 pt-4">
-              {!user ? (
-                <>
-                  <Button variant="outline" className="w-full" asChild>
-                    <a href="/login" onClick={() => setIsMobileMenuOpen(false)}>Log in</a>
+              <SignedOut>
+                <SignInButton mode="modal">
+                  <Button
+                    variant="outline"
+                    className="w-full"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    Log in
                   </Button>
-                  <Button className="w-full" asChild>
-                    <a href="/signup" onClick={() => setIsMobileMenuOpen(false)}>Sign up</a>
+                </SignInButton>
+                <SignUpButton mode="modal">
+                  <Button
+                    className="w-full"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    Sign up
                   </Button>
-                </>
-              ) : (
+                </SignUpButton>
+              </SignedOut>
+              <SignedIn>
                 <div className="flex flex-col gap-2">
                   <div className="p-2 border rounded-md text-sm text-foreground truncate">
-                    {user.email}
+                    {user?.primaryEmailAddress?.emailAddress ??
+                      user?.emailAddresses[0]?.emailAddress ??
+                      ""}
                   </div>
-                  <Button variant="outline" className="w-full" onClick={() => {
-                    handleSignOut();
-                    setIsMobileMenuOpen(false);
-                  }}>
-                    Log out
-                  </Button>
+                  <UserButton />
                 </div>
-              )}
+              </SignedIn>
             </div>
           </div>
         </div>
