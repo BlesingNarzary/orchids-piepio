@@ -118,6 +118,12 @@ export default async function ProjectsPage() {
                       <div className="font-medium">
                         {project.name}
                       </div>
+                      <div className="text-[11px] text-muted-foreground">
+                        Created{" "}
+                        {project.createdAt
+                          ? project.createdAt.toLocaleDateString()
+                          : ""}
+                      </div>
                       {project.description && (
                         <div className="text-sm text-muted-foreground line-clamp-2">
                           {project.description}
@@ -125,11 +131,17 @@ export default async function ProjectsPage() {
                       )}
                     </div>
                     <div className="flex items-center gap-2">
-                      <Link href="/builder">
+                      <Link href={`/dashboard/project/${project.id}`}>
                         <Button variant="outline" size="sm">
-                          Build with Piepio
+                          Open
                         </Button>
                       </Link>
+                      <Button variant="outline" size="sm">
+                        Duplicate
+                      </Button>
+                      <Button variant="outline" size="sm">
+                        Delete
+                      </Button>
                     </div>
                   </li>
                 ))}
@@ -141,4 +153,3 @@ export default async function ProjectsPage() {
     </main>
   );
 }
-

@@ -1,7 +1,7 @@
 import { db } from "@/db/client";
-import { usageEvents } from "@/db/schema";
+import { subscriptions, usageEvents } from "@/db/schema";
 import { requireDbUser } from "@/lib/require-db-user";
-import { eq, desc } from "drizzle-orm";
+import { and, desc, eq, gt } from "drizzle-orm";
 
 export default async function UsagePage() {
   const user = await requireDbUser();
@@ -13,6 +13,19 @@ export default async function UsagePage() {
     .orderBy(desc(usageEvents.createdAt))
     .limit(50);
 
+  const now = new Date();
+  const [sub] = await db
+    .select()
+    .from(subscriptions)
+    .where(
+      and(
+        eq(subscriptions.userId, user.id),
+        gt(subscriptions.currentPeriodEnd, now),
+        eq(subscriptions.status, "active"),
+      ),
+    )
+    .limit(1);
+
   return (
     <main className="min-h-[calc(100vh-3.5rem)] bg-background">
       <div className="max-w-6xl mx-auto py-6 space-y-4">
@@ -22,6 +35,32 @@ export default async function UsagePage() {
         <p className="text-sm text-muted-foreground">
           Recent events for your Piepio account.
         </p>
+        <div className="grid gap-4 sm:grid-cols-3">
+          <div className="border border-border rounded-2xl p-4 bg-card">
+            <div className="text-xs uppercase tracking-wide text-muted-foreground">
+              Apps generated
+            </div>
+            <div className="mt-2 text-2xl font-semibold">
+              {events.length}
+            </div>
+          </div>
+          <div className="border border-border rounded-2xl p-4 bg-card">
+            <div className="text-xs uppercase tracking-wide text-muted-foreground">
+              Plan
+            </div>
+            <div className="mt-2 text-sm font-semibold">
+              {sub ? sub.plan : "Free"}
+            </div>
+          </div>
+          <div className="border border-border rounded-2xl p-4 bg-card">
+            <div className="text-xs uppercase tracking-wide text-muted-foreground">
+              Status
+            </div>
+            <div className="mt-2 text-sm font-semibold">
+              {sub ? "Active" : "Free tier"}
+            </div>
+          </div>
+        </div>
         <div className="mt-4 border border-border rounded-2xl overflow-hidden">
           {events.length === 0 ? (
             <div className="p-6 text-sm text-muted-foreground">
@@ -58,4 +97,3 @@ export default async function UsagePage() {
     </main>
   );
 }
-

@@ -101,7 +101,8 @@
         "three-globe": "^2.43.0",
         "vaul": "^1.1.2",
         "zod": "^4.1.12",
-        "jszip": "^3.10.1"
+        "jszip": "^3.10.1",
+        "@monaco-editor/react": "^4.6.0"
     },
     "devDependencies": {
         "@babel/types": "^7.28.5",
